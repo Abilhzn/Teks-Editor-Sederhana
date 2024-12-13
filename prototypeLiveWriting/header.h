@@ -32,6 +32,7 @@ struct Stack {
 };
 
 // function for Linked-List
+void createList(List &L);
 Address createElement(Infotype data);
 void insertFirst(List &L, Address P);
 void insertLast(List &L, Address P);
@@ -40,10 +41,12 @@ void deleteFirst(List &L, Address &P);
 void deleteLast(List &L, Address &P);
 void deleteAfter(List &L, Address &P, Address &Cursor);
 void search(List L, string data, Address &P, Address &Q);
-void replace(List &L, string data, Address &P, Address &Q);
+void replace(List &L, List &tempList, Address &P, Address &Q);
 void findAndReplace(List &L, string data, Address &P, Address &Q);
 void shiftLeft(List L, Address &Cursor);
 void shiftRight(List L, Address &Cursor);
+void shiftUp(List L, Address &Cursor);
+void shiftDown(List L, Address &Cursor);
 void displayList(List L, Address Cursor);
 void displayCursor(List L, Address cursor);
 

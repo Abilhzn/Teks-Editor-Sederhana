@@ -18,10 +18,7 @@ int main() {
     // L[line].up = nullptr;
     // L[line].down = nullptr;
     List L;
-    L.first = nullptr;
-    L.last = nullptr;
-    L.up = nullptr;
-    L.down = nullptr;
+    createList(L);
     Address befCursor = L.first;
     Address cursor = L.first;
     Stack undoStack;
@@ -41,12 +38,12 @@ int main() {
         displayList(L, cursor);
         data = getch();
 
-        if (int(data) == 8){ // backspace
+        if (data == 8){ // backspace
             deleteAfter(L, cursor, befCursor);
             push(undoStack, cursor, befCursor, "delete");
             cursor = befCursor;
             befCursor = befCursor->prev;
-        } else if (int(data) == 13){ // enter atau newline
+        } else if (data == 13){ // enter atau newline
             data = '\n';
             cursor = createElement(data);
             insertAfter(L, cursor, befCursor);
@@ -54,18 +51,26 @@ int main() {
             befCursor = cursor;
         } else if (data == -32) {
             data = getch();
-            if (int(data) == 75){ // 75 == left arrow
+            if (data == 75){ // 75 == left arrow
                 shiftLeft(L, cursor);
                 befCursor = cursor->prev;
-            } else if (int(data) == 77){ // 77 == right arrow
+            } else if (data == 77){ // 77 == right arrow
                 shiftRight(L, cursor);
                 befCursor = cursor;
+            } else if (data == 72){ // 72 == up arrow
+
+            } else if (data == 80){ // 80 == down arrow
+
             }
-        } else {
+        } else if (data == 26){ // 26 == undo (ctrl+z)
+            // do undo
+        } else if (data == 25){ // 25 == redo (ctrl+y)
+            // do redo
+        } else{
             cursor = createElement(data);
             insertAfter(L, cursor, befCursor);
             push(undoStack, cursor, befCursor, "insert");
             befCursor = cursor;
         }
-    } while (int(data) != 27);
+    } while (data != 27);
 }

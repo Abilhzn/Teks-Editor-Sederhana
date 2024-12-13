@@ -3,6 +3,13 @@
 
 using namespace std;
 
+void createList(List &L){
+    L.first = nullptr;
+    L.last = nullptr;
+    L.up = nullptr;
+    L.down = nullptr;
+}
+
 Address createElement(Infotype data) {
     Address p = new ElmList;
     p->info = data;
@@ -88,19 +95,53 @@ void deleteAfter(List &L, Address &P, Address &Cursor){
 
 void search(List L, string data, Address &P, Address &Q){
     P = L.first;
-    Q = P->next;
-    while (P->next != nullptr && P->info != data) {
-        P = P->next;
+    Q = P;
+    bool thereIs = false;
+    int i = 0;
+    while (Q->next != nullptr && thereIs == false) {
+        if (data[i] == Q->info){
+            if (data[data.length()-1] == Q->info){
+                thereIs = true;
+            } else {
+                Q = Q->next;
+                i++;
+            }
+        } else {
+            Q = Q->next;
+            P = Q;
+            i = 0;
+        }
     }
-    return P;
 }
 
-void replace(List &L, string data, Address &P, Address &Q){
-
+void replace(List &L, List &tempList, Address &P, Address &Q){
+    if (P->prev != nullptr && Q->next != nullptr){
+        Address temp1, temp2;
+        temp1 = tempList.first;
+        temp2 = tempList.last;
+        (P->prev)->next = temp1;
+        (Q->next)->prev = temp2;
+        P->prev = nullptr;
+        Q->next = nullptr;
+        tempList.first = P;
+        tempList.last = Q;
+        while (tempList.first != nullptr) {
+            deleteLast(tempList , P);
+        }
+    }
 }
 
 void findAndReplace(List &L, string data, Address &P, Address &Q){
-    
+    search(L, data, P, Q);
+
+    List L2;
+    createList(L2);
+    for (int i = 0; i < data.length(); i++){
+        Address tempPtr = createElement(data[i]);
+        insertLast(L2, tempPtr);
+    }
+
+    replace(L, L2, P, Q);
 }
 
 void shiftLeft(List L, Address &Cursor) {
@@ -114,6 +155,10 @@ void shiftRight(List L, Address &Cursor) {
         Cursor = Cursor->next;
     }
 }
+
+void shiftUp(List L, Address &Cursor);
+
+void shiftDown(List L, Address &Cursor);
 
 void displayList(List L, Address Cursor) {
     Address P = L.first;
