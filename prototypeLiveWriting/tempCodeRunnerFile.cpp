@@ -1,4 +1,11 @@
-      // } else if (int(data) == 75){ // 75 == left arrow
-        //     shiftLeft(L, cursor);
-        // } else if (int(data) == 77){ // 77 == right arrow
-        //     shiftRight(L, cursor);
+void shiftLeft(List L, Address &Cursor) {
+    if (Cursor->prev != nullptr) {
+        Cursor = Cursor->prev;
+    }
+}
+
+void shiftRight(List L, Address &Cursor) {
+    if (Cursor->next != nullptr) {
+        Cursor = Cursor->next;
+    }
+}

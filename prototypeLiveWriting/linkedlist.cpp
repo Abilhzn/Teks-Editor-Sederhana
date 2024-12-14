@@ -16,17 +16,17 @@ Address createElement(Infotype data) {
     return p;
 }
 
-void insertFirst(List &L, Address P) {
-    if (L.first == nullptr) {
-        L.first = P;
-        L.last = P;
-    } else {
-        P->next = L.first;
-        L.first->prev = P;
-        L.first = P;
-    }
-}
-
+// insert functions section
+// void insertFirst(List &L, Address P) {
+//     if (L.first == nullptr) {
+//         L.first = P;
+//         L.last = P;
+//     } else {
+//         P->next = L.first;
+//         L.first->prev = P;
+//         L.first = P;
+//     }
+// }
 void insertLast(List &L, Address P) {
     if (L.first == nullptr) {
         L.first = P;
@@ -37,61 +37,57 @@ void insertLast(List &L, Address P) {
         L.last = P;
     }
 }
-
-void insertAfter(List &L, Address P, Address &Cursor){
-    if (Cursor == L.last) {
+void insertAfter(List &L, Address P, Address &befCursor){
+    if (befCursor == L.last) {
         insertLast(L, P);
-        Cursor = P;
+        befCursor = P;
     } else {
-        P->next = Cursor->next;
-        P->prev = Cursor;
-        ((Cursor->next)->prev) = P;
-        Cursor->next = P;
-        Cursor = P;
+        P->next = befCursor->next;
+        P->prev = befCursor;
+        (befCursor->next)->prev = P;
+        befCursor->next = P;
+        befCursor = P;
     }
 }
 
-void deleteFirst(List &L, Address &P) {
-    if (L.first != nullptr) {
-        P = L.first;
-        if (L.first == L.last) {
-            L.first = nullptr;
-            L.last = nullptr;
-        } else {
-            L.first = L.first->next;
-            L.first->prev = nullptr;
-        }
-        P->next = nullptr;
-    }
-}
-
+// delete functions section
+// void deleteFirst(List &L, Address &P) {
+//     if (L.first != nullptr) {
+//         P = L.first;
+//         if (L.first == L.last) {
+//             L.first = nullptr;
+//             L.last = nullptr;
+//         } else {
+//             L.first = L.first->next;
+//             L.first->prev = nullptr;
+//         }
+//         P->next = nullptr;
+//     }
+// }
 void deleteLast(List &L, Address &P) {
-    if (L.last != nullptr) {
-        P = L.last;
-        if (L.first == L.last) {
-            L.first = nullptr;
-            L.last = nullptr;
-        } else {
-            L.last = L.last->prev;
-            L.last->next = nullptr;
-        }
-        P->prev = nullptr;
+    if (L.first == L.last) {
+        P = nullptr;
+        return;
     }
+    P = L.last;
+    L.last = L.last->prev;
+    L.last->next = nullptr;
+    P->prev = nullptr;
 }
-
-void deleteAfter(List &L, Address &P, Address &Cursor){
-    if (Cursor == L.last) {
-        deleteLast(L, P);
-        Cursor = L.last;
-    // } else if (Cursor->next == L.last ){
-    } else {
-        P = Cursor->next;
-        Cursor->next = P->next;
-        if (P->next != nullptr){
-            P->next->prev = Cursor;
+void deleteAfter(List &L, Address &P, Address &befCursor){
+    if (befCursor != nullptr && befCursor->info != '\0'){
+        if (befCursor == L.last) {
+            deleteLast(L, P);
+            befCursor = L.last;
+        } else {
+            P = befCursor->next;
+            befCursor->next = P->next;
+            if (P->next != nullptr){
+                P->next->prev = befCursor;
+            }
+            P->next = nullptr;
+            P->prev = nullptr;
         }
-        P->next = nullptr;
-        P->prev = nullptr;
     }
 }
 
@@ -146,27 +142,29 @@ void findAndReplace(List &L, string data, Address &P, Address &Q){
     replace(L, L2, P, Q);
 }
 
-void shiftLeft(List L, Address &Cursor) {
+void shiftLeft(List L, Address &Cursor, Address &befCursor) {
     if (Cursor->prev != nullptr) {
         Cursor = Cursor->prev;
+        befCursor = Cursor->prev;
     }
 }
 
-void shiftRight(List L, Address &Cursor) {
+void shiftRight(List L, Address &Cursor, Address &befCursor) {
     if (Cursor->next != nullptr) {
         Cursor = Cursor->next;
+        befCursor = Cursor->prev;
     }
 }
 
-void shiftUp(List L, Address &Cursor);
+void shiftUp(List L, Address &Cursor, Address &befCursor);
 
-void shiftDown(List L, Address &Cursor);
+void shiftDown(List L, Address &Cursor, Address &befCursor);
 
 void displayList(List L, Address Cursor) {
     Address P = L.first;
     if (P != nullptr){
-        if (Cursor->next == L.first) cout << P->info << '|';
-        if (Cursor->prev == L.last) cout << P->info << '|';
+        // if (Cursor->next == L.first) cout << P->info << '|';
+        // if (Cursor->prev == L.last) cout << P->info << '|';
         while (P != nullptr) {
             cout << P->info;
             if (Cursor == P){
@@ -174,19 +172,6 @@ void displayList(List L, Address Cursor) {
             }
             P = P->next;
         }
-    }
-    cout << endl;
-}
-
-void displayCursor(List L, Address cursor) {
-    Address P = L.first;
-    while (P != nullptr) {
-        if (P == cursor) {
-            cout << "^";
-        } else {
-            cout << " ";
-        }
-        P = P->next;
     }
     cout << endl;
 }
