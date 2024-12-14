@@ -41,8 +41,12 @@ int main() {
         if (data == 8){ // backspace
             deleteAfter(L, cursor, befCursor);
             push(undoStack, cursor, befCursor, "delete");
-            cursor = befCursor;
-            befCursor = befCursor->prev;
+            if (cursor == nullptr) {
+                befCursor = nullptr; // Jika list kosong, befCursor juga harus nullptr
+            } else {
+                cursor = befCursor;
+                befCursor = (cursor != nullptr) ? cursor->prev : nullptr; // bentuk ternary operator ygy
+            }
         } else if (data == 13){ // enter atau newline
             data = '\n';
             cursor = createElement(data);
@@ -62,11 +66,55 @@ int main() {
             } else if (data == 80){ // 80 == down arrow
 
             }
+        // } else if (data == 18) { // find and replace
+
         } else if (data == 26){ // 26 == undo (ctrl+z)
             // do undo
+            if (!isEmpty(undoStack)) {    
+                string komando;
+                // Ambil operasi terakhir dari undoStack
+                pop(undoStack, cursor, befCursor, komando);
+                // Simpan operasi ke redoStack untuk memungkinkan redo
+                push(redoStack, cursor, befCursor, komando);
+                if ( komando == "insert") {
+                    deleteAfter(L, cursor, befCursor);
+                    if (cursor == nullptr) {
+                        befCursor = nullptr; // Jika list kosong, befCursor juga harus nullptr
+                    } else {
+                        cursor = befCursor;
+                        befCursor = (cursor != nullptr) ? cursor->prev : nullptr; // bentuk ternary operator ygy
+                    }
+                } else if (komando == "delete") {
+                    insertAfter(L, cursor, befCursor);
+                    befCursor = cursor;
+                }
+            } else {
+                cout << "Nothing to undo!\n";
+            }
         } else if (data == 25){ // 25 == redo (ctrl+y)
             // do redo
-        } else{
+            if (!isEmpty(redoStack)) {
+                string komando;
+                // Ambil operasi terakhir dari undoStack
+                pop(redoStack, cursor, befCursor, komando);
+                // Simpan operasi ke redoStack untuk memungkinkan redo
+                push(undoStack, cursor, befCursor, komando);
+                if ( komando == "insert") {
+                    insertAfter(L, cursor, befCursor);
+                    befCursor = cursor;
+                } else if (komando == "delete") {
+                    deleteAfter(L, cursor, befCursor);
+                    if (cursor == nullptr) {
+                        befCursor = nullptr; // Jika list kosong, befCursor juga harus nullptr
+                    } else {
+                        cursor = befCursor;
+                        befCursor = (cursor != nullptr) ? cursor->prev : nullptr; // bentuk ternary operator ygy
+                    }
+                }
+            } else {
+                cout << "Nothing to redo!\n";
+            }
+        } else {
             cursor = createElement(data);
             insertAfter(L, cursor, befCursor);
             push(undoStack, cursor, befCursor, "insert");

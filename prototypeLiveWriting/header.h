@@ -15,8 +15,6 @@ struct ElmList {
 struct List {
     Address first;
     Address last;
-    Address up;
-    Address down;
 };
 
 // data structure for Stack

@@ -6,8 +6,6 @@ using namespace std;
 void createList(List &L){
     L.first = nullptr;
     L.last = nullptr;
-    L.up = nullptr;
-    L.down = nullptr;
 }
 
 Address createElement(Infotype data) {
@@ -82,12 +80,16 @@ void deleteLast(List &L, Address &P) {
 }
 
 void deleteAfter(List &L, Address &P, Address &Cursor){
-    if (Cursor == L.last || Cursor->next == L.last) {
+    if (Cursor == L.last) {
         deleteLast(L, P);
+        Cursor = L.last;
+    // } else if (Cursor->next == L.last ){
     } else {
         P = Cursor->next;
         Cursor->next = P->next;
-        P->next->prev = Cursor;
+        if (P->next != nullptr){
+            P->next->prev = Cursor;
+        }
         P->next = nullptr;
         P->prev = nullptr;
     }
