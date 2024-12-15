@@ -32,30 +32,33 @@ struct Stack {
 // function for Linked-List
 void createList(List &L);
 Address createElement(Infotype data);
-void insertFirst(List &L, Address P);
+//  inserting
 void insertLast(List &L, Address P);
 void insertAfter(List &L, Address P, Address &Cursor);
-void deleteFirst(List &L, Address &P);
+//  deleting
 void deleteLast(List &L, Address &P);
 void deleteAfter(List &L, Address &P, Address &Cursor);
+//  find and replace
 void search(List L, string data, Address &P, Address &Q);
 void replace(List &L, List &tempList, Address &P, Address &Q);
 void findAndReplace(List &L, string data, Address &P, Address &Q);
+//  movecursor
 void shiftLeft(List L, Address &Cursor, Address &befCursor);
 void shiftRight(List L, Address &Cursor, Address &befCursor);
 void shiftUp(List L, Address &Cursor, Address &befCursor);
 void shiftDown(List L, Address &Cursor, Address &befCursor);
+// display
 void displayList(List L, Address Cursor);
 void displayCursor(List L, Address cursor);
 
 // function for Stack
 void createStack(Stack &S);
+bool isEmpty(Stack S);
+bool isFull(Stack S);
+// undo and redo
 void push(Stack &S, Address P, Address prev, string perintah);
 void pop(Stack &S, Address &P, Address &prev, string &perintah);
 void emptyStack(Stack &S, Address &P, Address &prev, string &perintah);
-bool isEmpty(Stack S);
-bool isFull(Stack S);
-void displayStack(Stack S);
 
 
 #endif // HEADER_H_INCLUDED

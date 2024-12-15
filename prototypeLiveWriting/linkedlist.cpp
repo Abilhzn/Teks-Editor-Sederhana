@@ -17,16 +17,6 @@ Address createElement(Infotype data) {
 }
 
 // insert functions section
-// void insertFirst(List &L, Address P) {
-//     if (L.first == nullptr) {
-//         L.first = P;
-//         L.last = P;
-//     } else {
-//         P->next = L.first;
-//         L.first->prev = P;
-//         L.first = P;
-//     }
-// }
 void insertLast(List &L, Address P) {
     if (L.first == nullptr) {
         L.first = P;
@@ -51,19 +41,6 @@ void insertAfter(List &L, Address P, Address &befCursor){
 }
 
 // delete functions section
-// void deleteFirst(List &L, Address &P) {
-//     if (L.first != nullptr) {
-//         P = L.first;
-//         if (L.first == L.last) {
-//             L.first = nullptr;
-//             L.last = nullptr;
-//         } else {
-//             L.first = L.first->next;
-//             L.first->prev = nullptr;
-//         }
-//         P->next = nullptr;
-//     }
-// }
 void deleteLast(List &L, Address &P) {
     if (L.first == L.last) {
         P = nullptr;

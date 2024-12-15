@@ -42,16 +42,3 @@ void emptyStack(Stack &S, Address &P, Address &prev, string &perintah){
         pop(S, P, prev, perintah);
     }
 }
-
-void displayStack(Stack S) {
-    if (isEmpty(S)) {
-        cout << "Stack is empty." << endl;
-        return;
-    }
-    for (int i = S.top; i >= 0; i--) {
-        cout << S.info[i].element << " ";
-    }
-}
-
-
-
