@@ -52,6 +52,7 @@ void displayCursor(List L, Address cursor);
 void createStack(Stack &S);
 void push(Stack &S, Address P, Address prev, string perintah);
 void pop(Stack &S, Address &P, Address &prev, string &perintah);
+void emptyStack(Stack &S, Address &P, Address &prev, string &perintah);
 bool isEmpty(Stack S);
 bool isFull(Stack S);
 void displayStack(Stack S);

@@ -46,6 +46,10 @@ int main() {
 
         if (data == 8){ // backspace
             if (cursor != nullptr && cursor->info != '\0'){ // pengecekan klo ini bukan di huruf paling awal
+                // reset stack di redo
+                string komando; Address temp1, temp2;
+                emptyStack(redoStack, temp1, temp2, komando);
+                // delete karakter
                 deleteAfter(L, cursor, befCursor);
                 push(undoStack, cursor, befCursor, "delete");
                 if (cursor == nullptr) {
@@ -56,6 +60,10 @@ int main() {
                 }
             }
         } else if (data == 13){ // enter atau newline
+            // reset stack di redo
+            string komando; Address temp1, temp2;
+            emptyStack(redoStack, temp1, temp2, komando);
+            // insert karakter
             befCursor = cursor;
             data = '\n';
             cursor = createElement(data);
@@ -125,6 +133,10 @@ int main() {
                 cout << "Nothing to redo!\n";
             }
         } else {
+            // reset stack di redo
+            string komando; Address temp1, temp2;
+            emptyStack(redoStack, temp1, temp2, komando);
+            // insert karakter
             befCursor = cursor;
             cursor = createElement(data);
             insertAfter(L, cursor, befCursor);

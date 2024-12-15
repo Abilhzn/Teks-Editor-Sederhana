@@ -37,6 +37,12 @@ void pop(Stack &S, Address &P, Address &prev, string &perintah) {
     }
 }
 
+void emptyStack(Stack &S, Address &P, Address &prev, string &perintah){
+    while (!isEmpty(S)){
+        pop(S, P, prev, perintah);
+    }
+}
+
 void displayStack(Stack S) {
     if (isEmpty(S)) {
         cout << "Stack is empty." << endl;
