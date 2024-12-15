@@ -76,9 +76,9 @@ int main() {
             } else if (data == 77){ // 77 == right arrow
                 shiftRight(L, cursor, befCursor);
             } else if (data == 72){ // 72 == up arrow
-
+                shiftUp(L, cursor, befCursor);
             } else if (data == 80){ // 80 == down arrow
-
+                shiftDown(L, cursor, befCursor);
             }
         // } else if (data == 18) { // find and replace
 

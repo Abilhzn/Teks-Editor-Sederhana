@@ -69,8 +69,6 @@ void deleteAfter(List &L, Address &P, Address &befCursor){
 }
 
 void search(List L, string data, Address &P, Address &Q){
-    P = L.first;
-    Q = P;
     bool thereIs = false;
     int i = 0;
     while (Q->next != nullptr && thereIs == false) {
@@ -107,6 +105,8 @@ void replace(List &L, List &tempList, Address &P, Address &Q){
 }
 
 void findAndReplace(List &L, string data, Address &P, Address &Q){
+    P = L.first;
+    Q = P;
     search(L, data, P, Q);
 
     List L2;
@@ -133,9 +133,94 @@ void shiftRight(List L, Address &Cursor, Address &befCursor) {
     }
 }
 
-void shiftUp(List L, Address &Cursor, Address &befCursor);
+void shiftUp(List L, Address &Cursor, Address &befCursor){
+    int currentLine = 1;
+    int countBefLine = 1;
+    int countColumnLine = 0;
+    int column = 0;
+    Address P = L.first;
+    Address target = nullptr;
+    while (P != Cursor){ // Hitung posisi kolom di baris saat ini sekaligus itung ada di baris brp
+        if (P->info == '\n' || P->info == '\0'){
+            countBefLine++;
+            countColumnLine = 0;
+        } else {
+            countColumnLine++;
+        }
+        P = P->next;
+    }
+    // Kembali ke awal list untuk mencari "dimana sih baris sebelumnya"
+    P = L.first;
+    while (P != nullptr) {
+        if (P->info == '\n' || P->info == '\0') {
+            currentLine++;
+            if (currentLine == countBefLine) {
+                break;
+            }
+        }
+        P = P->next;
+    }
+    // Cari elemen di kolom yang sesuai di baris sebelumnya
+    while (P != nullptr && P->info != '\n' && P->info != '\0') {
+        if (column == countColumnLine) {
+            target = P; // Elemen ditemukan
+            break;
+        }
+        column++;
+        P = P->next;
+    }
+    // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
+    if (target == nullptr) target = P;
+    if (target != nullptr) { // Update Cursor dan befCursor
+        Cursor = target;
+        befCursor = Cursor->prev;
+    }
+}
 
-void shiftDown(List L, Address &Cursor, Address &befCursor);
+void shiftDown(List L, Address &Cursor, Address &befCursor){
+    int currentLine = 1;
+    int countNextLine = 1;
+    int countColumnLine = 0;
+    int column = 0;
+    Address P = L.first;
+    Address target = nullptr;
+     // Hitung posisi kolom di baris saat ini sekaligus itung ada di baris brp
+    while (P != Cursor){
+        if (P->info == '\n' || P->info == '\0'){
+            countNextLine++;
+            countColumnLine = 0;
+        } else {
+            countColumnLine++;
+        }
+        P = P->next;
+    }
+    // Kembali ke awal list untuk mencari "dimana sih baris berikutnya"
+    P = L.first;
+    while (P != nullptr) {
+        if (P->info == '\n' || P->info == '\0') {
+            currentLine++;
+            if (currentLine == countNextLine) {
+                break;
+            }
+        }
+        P = P->next;
+    }
+    // Cari elemen di kolom yang sesuai di baris sebelumnya
+    while (P != nullptr && P->info != '\n' && P->info != '\0') {
+        if (column == countColumnLine) {
+            target = P; // Elemen ditemukan
+            break;
+        }
+        column++;
+        P = P->next;
+    }
+    // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
+    if (target == nullptr) target = P;
+    if (target != nullptr) { // Update Cursor dan befCursor
+        Cursor = target;
+        befCursor = Cursor->prev;
+    }
+}
 
 void displayList(List L, Address Cursor) {
     Address P = L.first;
