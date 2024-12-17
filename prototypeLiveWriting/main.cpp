@@ -34,6 +34,7 @@ int main() {
         } else {
             cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << (cursor->next)->info << "'"  << endl;
         }
+        cout << "anda menekan : " << int(data) << endl;
         cout << "====================================================\n" << endl;
         
         displayList(L, cursor);

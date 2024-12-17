@@ -70,6 +70,11 @@ void deleteAfter(List &L, Address &P, Address &befCursor){
     }
 }
 
+// "dyan maharani az dyan"
+// data = "dyan"
+// p = d
+// q = n
+
 void search(List L, string data, Address &P, Address &Q){
     bool thereIs = false;
     int i = 0;
@@ -88,6 +93,7 @@ void search(List L, string data, Address &P, Address &Q){
         }
     }
 }
+
 
 void replace(List &L, List &tempList, Address &P, Address &Q){
     if (P->prev != nullptr && Q->next != nullptr){
@@ -110,6 +116,8 @@ void findAndReplace(List &L, string data, Address &P, Address &Q){
     P = L.first;
     Q = P;
     search(L, data, P, Q);
+
+    // butuh algoritma buat cek "itu bukan bang kalimat yg dicarinya?"
 
     List L2;
     createList(L2);
@@ -135,6 +143,10 @@ void shiftRight(List L, Address &Cursor, Address &befCursor) {
     }
 }
 
+// halo rek
+// saya abil
+// dan ini ga tau apaan
+
 void shiftUp(List L, Address &Cursor, Address &befCursor){
     int currentLine = 1;
     int countBefLine = 1;
@@ -142,7 +154,7 @@ void shiftUp(List L, Address &Cursor, Address &befCursor){
     int column = 0;
     Address P = L.first;
     Address target = nullptr;
-    while (P != Cursor){ // Hitung posisi kolom di baris saat ini sekaligus itung ada di baris brp
+    while (P != Cursor || P != nullptr){ // Hitung posisi kolom di baris saat ini sekaligus itung ada di baris brp
         if (P->info == '\n' || P->info == '\0'){
             countBefLine++;
             countColumnLine = 0;
@@ -161,8 +173,7 @@ void shiftUp(List L, Address &Cursor, Address &befCursor){
             }
         }
         P = P->next;
-    }
-    
+    }   
     // Cari elemen di kolom yang sesuai di baris sebelumnya
     while (P != nullptr && P->info != '\n' && P->info != '\0') {
         if (column == countColumnLine) {
@@ -177,8 +188,7 @@ void shiftUp(List L, Address &Cursor, Address &befCursor){
             target = P; // Simpan elemen terakhir sebelum '\n' atau '\0'
             P = P->next;
         }
-    } 
-    if (target != nullptr) { // Update Cursor dan befCursor
+    } else { // Update Cursor dan befCursor
         Cursor = target;
         befCursor = Cursor->prev;
     }
