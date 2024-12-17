@@ -9,14 +9,7 @@ using namespace std;
 
 int main() {
     // varibel
-    const int MAXLINES = 1024;
-    int line = 0;
     Infotype data;
-    // List L[MAXLINES];
-    // L[line].first = nullptr;
-    // L[line].last = nullptr;
-    // L[line].up = nullptr;
-    // L[line].down = nullptr;
     List L;
     Stack undoStack, redoStack;
     Address cursor, befCursor;
@@ -36,9 +29,11 @@ int main() {
     do {
         system("cls"); // reset tampilan terminal
         cout << "Tekan 'Esc' untuk keluar dari program\n";
-        // cout << "Posisi Cursor Antara : " << befCursor->info << " " << cursor->info << "\n\n" << endl;
-        // cout << int(befCursor->info) << " cursor " << int(cursor->info) << endl;
-        cout << int(data) << endl;
+        if (cursor->next == nullptr){
+            cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << " " << "'" << endl;
+        } else {
+            cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << (cursor->next)->info << "'"  << endl;
+        }
         cout << "====================================================\n" << endl;
         
         displayList(L, cursor);
@@ -143,4 +138,16 @@ int main() {
             push(undoStack, cursor, befCursor, "insert");
         }
     } while (data != 27);
+
+    // tampilan akhir
+    system("cls"); // reset tampilan terminal
+    cout << "Tekan 'Esc' untuk keluar dari program\n";
+    if (cursor->next == nullptr){
+        cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << " " << "'" << endl;
+    } else {
+        cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << (cursor->next)->info << "'"  << endl;
+    }
+    cout << "====================================================\n" << endl;
+    cursor = nullptr;
+    displayList(L, cursor);
 }

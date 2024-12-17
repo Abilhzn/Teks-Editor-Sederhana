@@ -27,8 +27,9 @@ void insertLast(List &L, Address P) {
         L.last = P;
     }
 }
+
 void insertAfter(List &L, Address P, Address &befCursor){
-    if (P == L.last) {
+    if (befCursor == L.last) {
         insertLast(L, P);
         befCursor = P;
     } else {
@@ -51,8 +52,9 @@ void deleteLast(List &L, Address &P) {
     L.last->next = nullptr;
     P->prev = nullptr;
 }
+
 void deleteAfter(List &L, Address &P, Address &befCursor){
-    if (befCursor != nullptr && befCursor->info != '\0'){
+    if (P->info != '\0'){
         if (P == L.last) {
             deleteLast(L, P);
             befCursor = L.last;
@@ -160,6 +162,7 @@ void shiftUp(List L, Address &Cursor, Address &befCursor){
         }
         P = P->next;
     }
+    
     // Cari elemen di kolom yang sesuai di baris sebelumnya
     while (P != nullptr && P->info != '\n' && P->info != '\0') {
         if (column == countColumnLine) {
@@ -169,8 +172,12 @@ void shiftUp(List L, Address &Cursor, Address &befCursor){
         column++;
         P = P->next;
     }
-    // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
-    if (target == nullptr) target = P;
+    if (target == nullptr) { // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
+        while (P != nullptr && P->info != '\n' && P->info != '\0') {
+            target = P; // Simpan elemen terakhir sebelum '\n' atau '\0'
+            P = P->next;
+        }
+    } 
     if (target != nullptr) { // Update Cursor dan befCursor
         Cursor = target;
         befCursor = Cursor->prev;
@@ -214,8 +221,10 @@ void shiftDown(List L, Address &Cursor, Address &befCursor){
         column++;
         P = P->next;
     }
-    // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
-    if (target == nullptr) target = P;
+    if (target == nullptr) { // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
+        Cursor = P;
+        befCursor = Cursor->prev;
+    }
     if (target != nullptr) { // Update Cursor dan befCursor
         Cursor = target;
         befCursor = Cursor->prev;
