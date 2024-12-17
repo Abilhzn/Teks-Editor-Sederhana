@@ -28,7 +28,7 @@ void insertLast(List &L, Address P) {
     }
 }
 void insertAfter(List &L, Address P, Address &befCursor){
-    if (befCursor == L.last) {
+    if (P == L.last) {
         insertLast(L, P);
         befCursor = P;
     } else {
@@ -53,7 +53,7 @@ void deleteLast(List &L, Address &P) {
 }
 void deleteAfter(List &L, Address &P, Address &befCursor){
     if (befCursor != nullptr && befCursor->info != '\0'){
-        if (befCursor == L.last) {
+        if (P == L.last) {
             deleteLast(L, P);
             befCursor = L.last;
         } else {
