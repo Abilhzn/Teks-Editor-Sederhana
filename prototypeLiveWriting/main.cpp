@@ -29,8 +29,10 @@ int main() {
     do {
         system("cls"); // reset tampilan terminal
         cout << "Tekan 'Esc' untuk keluar dari program\n";
-        if (cursor->next == nullptr){
+        if (cursor->next == nullptr || (cursor->next)->info == '\n'){
             cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << " " << "'" << endl;
+        } else if (cursor->prev == nullptr || (cursor->prev)->info == '\n'){
+            cout << "Posisi Cursor Antara : '" << "'"  << "' '" << " " << cursor->info << endl;
         } else {
             cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << (cursor->next)->info << "'"  << endl;
         }

@@ -143,102 +143,153 @@ void shiftRight(List L, Address &Cursor, Address &befCursor) {
     }
 }
 
-// halo rek
-// saya abil
-// dan ini ga tau apaan
-
 void shiftUp(List L, Address &Cursor, Address &befCursor){
-    int currentLine = 1;
-    int countBefLine = 1;
-    int countColumnLine = 0;
-    int column = 0;
+    // int currentLine = 1;
+    // int countBefLine = 1;
+    // int countColumnLine = 0;
+    // int column = 0;
+    // Address P = L.first;
+    // Address target = nullptr;
+    // // Hitung posisi kolom di baris saat ini sekaligus itung ada di baris brp
+    // while (P != Cursor || P != nullptr){
+    //     if (P->info == '\n' || P->info == '\0'){
+    //         countBefLine++;
+    //         countColumnLine = 0;
+    //     } else {
+    //         countColumnLine++;
+    //     }
+    //     P = P->next;
+    // }
+    // // Kembali ke awal list untuk mencari "dimana sih baris berikutnya"
+    // P = L.first;
+    // while (P != nullptr) {
+    //     if (P->info == '\n' || P->info == '\0') {
+    //         currentLine++;
+    //         if (currentLine == countBefLine) {
+    //             break;
+    //         }
+    //     }
+    //     P = P->next;
+    // }
+    // // Cari elemen di kolom yang sesuai di baris sebelumnya
+    // while (P != nullptr && P->info != '\n' && P->info != '\0') {
+    //     if (column == countColumnLine) {
+    //         target = P; // Elemen ditemukan
+    //         break;
+    //     }
+    //     column++;
+    //     P = P->next;
+    // }
+    // if (target == nullptr) { // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
+    //     Cursor = P;
+    //     befCursor = Cursor->prev;
+    // }
+    // if (target != nullptr) { // Update Cursor dan befCursor
+    //     Cursor = target;
+    //     befCursor = Cursor->prev;
+    // }
+    int currentColumn = 0; // Posisi kolom pada baris saat ini
     Address P = L.first;
-    Address target = nullptr;
-    while (P != Cursor || P != nullptr){ // Hitung posisi kolom di baris saat ini sekaligus itung ada di baris brp
-        if (P->info == '\n' || P->info == '\0'){
-            countBefLine++;
-            countColumnLine = 0;
-        } else {
-            countColumnLine++;
-        }
-        P = P->next;
-    }
-    // Kembali ke awal list untuk mencari "dimana sih baris sebelumnya"
-    P = L.first;
-    while (P != nullptr) {
+
+    // Hitung posisi kolom dan baris saat ini
+    while (P != nullptr && P != Cursor) {
         if (P->info == '\n' || P->info == '\0') {
-            currentLine++;
-            if (currentLine == countBefLine) {
-                break;
-            }
+            currentColumn = 0; // Reset kolom jika menemukan akhir baris
+        } else {
+            currentColumn++; // Hitung kolom
         }
         P = P->next;
-    }   
-    // Cari elemen di kolom yang sesuai di baris sebelumnya
-    while (P != nullptr && P->info != '\n' && P->info != '\0') {
-        if (column == countColumnLine) {
-            target = P; // Elemen ditemukan
-            break;
-        }
+    }
+
+    if (P == nullptr) return; // Jika Cursor tidak ditemukan di list, keluar
+
+    // Cari awal baris saat ini
+    Address startOfCurrentLine = Cursor;
+    while (startOfCurrentLine->prev != nullptr && startOfCurrentLine->prev->info != '\n') {
+        startOfCurrentLine = startOfCurrentLine->prev;
+    }
+
+    // Jika sudah di baris pertama, tidak bisa pindah ke atas
+    if (startOfCurrentLine->prev == nullptr) return;
+
+    // Cari awal baris sebelumnya
+    Address startOfPrevLine = startOfCurrentLine->prev;
+    while (startOfPrevLine->prev != nullptr && startOfPrevLine->prev->info != '\n') {
+        startOfPrevLine = startOfPrevLine->prev;
+    }
+
+    // Cari elemen di kolom yang sesuai pada baris sebelumnya
+    Address target = startOfPrevLine;
+    int column = 0;
+    while (target != nullptr && target->info != '\n' && target->info != '\0') {
+        if (column == currentColumn) break; // Jika kolom ditemukan, berhenti
         column++;
-        P = P->next;
+        target = target->next;
     }
-    if (target == nullptr) { // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
-        while (P != nullptr && P->info != '\n' && P->info != '\0') {
-            target = P; // Simpan elemen terakhir sebelum '\n' atau '\0'
-            P = P->next;
+
+    // Jika tidak ada kolom yang sesuai, arahkan ke elemen terakhir di baris sebelumnya
+    if (target == nullptr || target->info == '\n' || target->info == '\0') {
+        target = startOfPrevLine;
+        while (target->next != nullptr && target->next->info != '\n' && target->next->info != '\0') {
+            target = target->next;
         }
-    } else { // Update Cursor dan befCursor
-        Cursor = target;
-        befCursor = Cursor->prev;
     }
+
+    // Update Cursor dan befCursor
+    Cursor = target;
+    befCursor = (Cursor != nullptr) ? Cursor->prev : nullptr;
 }
 
 void shiftDown(List L, Address &Cursor, Address &befCursor){
-    int currentLine = 1;
-    int countNextLine = 1;
-    int countColumnLine = 0;
-    int column = 0;
+    if (Cursor == nullptr) return; // Jika Cursor kosong, tidak perlu melakukan apapun
+
+    int currentColumn = 0; // Posisi kolom pada baris saat ini
     Address P = L.first;
-    Address target = nullptr;
-     // Hitung posisi kolom di baris saat ini sekaligus itung ada di baris brp
-    while (P != Cursor){
-        if (P->info == '\n' || P->info == '\0'){
-            countNextLine++;
-            countColumnLine = 0;
-        } else {
-            countColumnLine++;
-        }
-        P = P->next;
-    }
-    // Kembali ke awal list untuk mencari "dimana sih baris berikutnya"
-    P = L.first;
-    while (P != nullptr) {
+
+    // Hitung posisi kolom saat ini
+    while (P != nullptr && P != Cursor) {
         if (P->info == '\n' || P->info == '\0') {
-            currentLine++;
-            if (currentLine == countNextLine) {
-                break;
-            }
+            currentColumn = 0; // Reset kolom jika menemukan akhir baris
+        } else {
+            currentColumn++; // Hitung kolom
         }
         P = P->next;
     }
-    // Cari elemen di kolom yang sesuai di baris sebelumnya
-    while (P != nullptr && P->info != '\n' && P->info != '\0') {
-        if (column == countColumnLine) {
-            target = P; // Elemen ditemukan
-            break;
-        }
+
+    if (P == nullptr) return; // Jika Cursor tidak ditemukan di list, keluar
+
+    // Cari akhir baris saat ini
+    Address endOfCurrentLine = Cursor;
+    while (endOfCurrentLine != nullptr && endOfCurrentLine->info != '\n' && endOfCurrentLine->info != '\0') {
+        endOfCurrentLine = endOfCurrentLine->next;
+    }
+
+    // Jika tidak ada baris berikutnya, keluar
+    if (endOfCurrentLine == nullptr || endOfCurrentLine->next == nullptr) return;
+
+    // Cari awal baris berikutnya
+    Address startOfNextLine = endOfCurrentLine->next;
+
+    // Cari elemen di kolom yang sesuai pada baris berikutnya
+    Address target = startOfNextLine;
+    int column = 0;
+    while (target != nullptr && target->info != '\n' && target->info != '\0') {
+        if (column == currentColumn) break; // Jika kolom ditemukan, berhenti
         column++;
-        P = P->next;
+        target = target->next;
     }
-    if (target == nullptr) { // Jika tidak ada kolom yang cocok, gunakan elemen terakhir di baris sebelumnya
-        Cursor = P;
-        befCursor = Cursor->prev;
+
+    // Jika tidak ada kolom yang sesuai, arahkan ke elemen terakhir di baris berikutnya
+    if (target == nullptr || target->info == '\n' || target->info == '\0') {
+        target = startOfNextLine;
+        while (target->next != nullptr && target->next->info != '\n' && target->next->info != '\0') {
+            target = target->next;
+        }
     }
-    if (target != nullptr) { // Update Cursor dan befCursor
-        Cursor = target;
-        befCursor = Cursor->prev;
-    }
+
+    // Update Cursor dan befCursor
+    Cursor = target;
+    befCursor = (Cursor != nullptr) ? Cursor->prev : nullptr;
 }
 
 void displayList(List L, Address Cursor) {
