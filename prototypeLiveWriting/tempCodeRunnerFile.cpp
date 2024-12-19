@@ -1,2 +1,2 @@
->info << " " << cursor->info << "\n\n" << endl;
-        cout << int(befCursor->info) << " cursor " << i
+        } else if (data == 18) { // find and replace
+            findAndReplace(L, kalimat, befCursor, cursor);

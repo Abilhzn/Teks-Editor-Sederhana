@@ -14,16 +14,16 @@ int main() {
     Stack undoStack, redoStack;
     Address cursor, befCursor;
 
-    // creating stack for undo n redo
-    createStack(undoStack);
-    createStack(redoStack);
-
     // creating line
     createList(L);
     cursor = createElement('\0');
     befCursor = L.last;
     insertAfter(L, cursor, befCursor);
     befCursor = cursor;
+    
+    // creating stack for undo n redo
+    createStack(undoStack);
+    createStack(redoStack);
 
     // main program
     do {
@@ -78,8 +78,17 @@ int main() {
             } else if (data == 80){ // 80 == down arrow
                 shiftDown(L, cursor, befCursor);
             }
-        // } else if (data == 18) { // find and replace
-
+        } else if (data == 127) { // find and replace
+            Address temp1 = cursor;
+            Address temp2 = befCursor;
+            string kalimat;
+            cout << "\n====================================================" << endl;
+            cout << "Masukan kalimat yang anda ingin cari : " ;
+            cin >> kalimat;
+            cout << endl;
+            findAndReplace(L, kalimat, befCursor, cursor);
+            cursor = temp1;
+            befCursor = temp2;
         } else if (data == 26){ // 26 == undo (ctrl+z)
             // do undo
             if (!isEmpty(undoStack)) {    
