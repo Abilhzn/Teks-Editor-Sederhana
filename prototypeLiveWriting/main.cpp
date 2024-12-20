@@ -28,7 +28,7 @@ int main() {
     // main program
     do {
         system("cls"); // reset tampilan terminal
-        cout << "Tekan 'Esc' untuk keluar dari program\n";
+        cout << "Tekan 'Esc' untuk keluar dari program\n(Please don't write anything weird :))\n\n";
         if (cursor->next == nullptr || (cursor->next)->info == '\n'){
             cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << " " << "'" << endl;
         } else if (cursor->prev == nullptr || (cursor->prev)->info == '\n'){
@@ -78,7 +78,7 @@ int main() {
             } else if (data == 80){ // 80 == down arrow
                 shiftDown(L, cursor, befCursor);
             }
-        } else if (data == 127) { // find and replace
+        } else if (data == 127) { // find and replace == ctrl+h
             Address temp1 = cursor;
             Address temp2 = befCursor;
             string kalimat;
@@ -153,12 +153,7 @@ int main() {
 
     // tampilan akhir
     system("cls"); // reset tampilan terminal
-    cout << "Tekan 'Esc' untuk keluar dari program\n";
-    if (cursor->next == nullptr){
-        cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << " " << "'" << endl;
-    } else {
-        cout << "Posisi Cursor Antara : '" << cursor->info << "' '" << (cursor->next)->info << "'"  << endl;
-    }
+    cout << "Final Text" << endl;
     cout << "====================================================\n" << endl;
     cursor = nullptr;
     displayList(L, cursor);
