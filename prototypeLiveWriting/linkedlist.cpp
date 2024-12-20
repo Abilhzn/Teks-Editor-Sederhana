@@ -70,66 +70,12 @@ void deleteAfter(List &L, Address &P, Address &befCursor){
     }
 }
 
-// void search(List L, string data, Address &P, Address &Q){
-//     bool thereIs = false;
-//     int i = 0;
-//     int kalimatnya = 0;
-//     while (Q->next != nullptr && thereIs == false) {
-//         if (data[i] == Q->info){
-//             if (data[data.length()-1] == Q->info && data.length() == kalimatnya){
-//                 thereIs = true;
-//             } else {
-//                 Q = Q->next;
-//                 i++;
-//                 kalimatnya++;
-//             }
-//         } else {
-//             Q = Q->next;
-//             P = Q;
-//             i = 0;
-//             kalimatnya = 0;
-//         }
-//     }
-// }
-
-// void replace(List &L, List &tempList, Address &P, Address &Q){
-//     if (P->prev != nullptr && Q->next != nullptr){
-//         Address temp1, temp2;
-//         temp1 = tempList.first;
-//         temp2 = tempList.last;
-//         (P->prev)->next = temp1;
-//         (Q->next)->prev = temp2;
-//         P->prev = nullptr;
-//         Q->next = nullptr;
-//         tempList.first = P;
-//         tempList.last = Q;
-//         while (tempList.first != nullptr) {
-//             deleteLast(tempList , P);
-//         }
-//     }
-// }
-
-// void findAndReplace(List &L, string data, Address &P, Address &Q){
-//     P = L.first;
-//     Q = P;
-//     search(L, data, P, Q);
-//     string kalimat;
-//     cin >> kalimat;
-//     List L2;
-//     createList(L2);
-//     for (int i = 0; i < kalimat.length(); i++){
-//         Address tempPtr = createElement(kalimat[i]);
-//         insertLast(L2, tempPtr);
-//     }
-//     replace(L, L2, P, Q);
-// }
-
 void search(List L, string data, Address &P, Address &Q) {
     bool thereIs = false;
     int i = 0;
 
-    P = L.first; 
-    Q = P;       
+    // P = L.first; 
+    // Q = P;       
 
     while (Q != nullptr && !thereIs) { 
         if (data[i] == Q->info) {
@@ -187,7 +133,7 @@ void findAndReplace(List &L, string data, Address &P, Address &Q) {
         return;
     }
 
-    cout << "Masukan kalimat pengganti : ";
+    cout << "Masukan kata pengganti : ";
     string replacement;
     cin >> replacement;
     List tempList;
@@ -320,8 +266,6 @@ void shiftDown(List L, Address &Cursor, Address &befCursor){
 void displayList(List L, Address Cursor) {
     Address P = L.first;
     if (P != nullptr){
-        // if (Cursor->next == L.first) cout << P->info << '|';
-        // if (Cursor->prev == L.last) cout << P->info << '|';
         while (P != nullptr) {
             cout << P->info;
             if (Cursor == P){

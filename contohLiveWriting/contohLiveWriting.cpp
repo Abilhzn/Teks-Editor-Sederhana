@@ -25,3 +25,4 @@ int main(){
     } while (int(data) != 27);
     
 }
+

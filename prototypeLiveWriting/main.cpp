@@ -83,7 +83,7 @@ int main() {
             Address temp2 = befCursor;
             string kalimat;
             cout << "\n====================================================" << endl;
-            cout << "Masukan kalimat yang anda ingin cari : " ;
+            cout << "Masukan kata yang ingin Anda cari : " ;
             cin >> kalimat;
             cout << endl;
             findAndReplace(L, kalimat, befCursor, cursor);
@@ -111,8 +111,6 @@ int main() {
                     push(redoStack, cursor, befCursor, komando);
                     // befCursor = cursor;
                 }
-            } else {
-                cout << "Nothing to undo!\n";
             }
         } else if (data == 25){ // 25 == redo (ctrl+y)
             // do redo
@@ -136,8 +134,6 @@ int main() {
                         befCursor = (cursor != nullptr) ? cursor->prev : nullptr; // bentuk ternary operator ygy
                     }
                 }
-            } else {
-                cout << "Nothing to redo!\n";
             }
         } else {
             // reset stack di redo

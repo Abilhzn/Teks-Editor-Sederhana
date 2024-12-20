@@ -4,11 +4,11 @@
 using namespace std;
 
 void createStack(Stack &S) {
-    S.top = 0;
+    S.top = -1;
 }
 
 bool isEmpty(Stack S) {
-    return S.top == 0;
+    return S.top == -1;
 }
 
 bool isFull(Stack S) {

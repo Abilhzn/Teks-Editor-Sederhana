@@ -49,7 +49,6 @@ void shiftUp(List L, Address &Cursor, Address &befCursor);
 void shiftDown(List L, Address &Cursor, Address &befCursor);
 // display
 void displayList(List L, Address Cursor);
-void displayCursor(List L, Address cursor);
 
 // function for Stack
 void createStack(Stack &S);
